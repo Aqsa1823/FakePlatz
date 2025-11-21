@@ -1,0 +1,1900 @@
+{
+	"info": {
+		"_postman_id": "8d1dd077-7213-4107-a110-0fd47db805b3",
+		"name": "FakeApiPlatz",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GetUser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b0969e8b-cef2-4b75-878b-91883d9be406",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "c4cfa0c3-8380-4911-965a-0fc76e4659be",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 1000ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);",
+									"});",
+									"pm.test(\"Response is an array\", function () {",
+									"  pm.expect(pm.response.json()).to.be.an(\"array\");",
+									"});",
+									"pm.test(\"Each user has required fields\", function () {",
+									"  let users = pm.response.json();",
+									"  users.forEach(u => {",
+									"    pm.expect(u).to.have.property(\"id\");",
+									"    pm.expect(u).to.have.property(\"name\");",
+									"    pm.expect(u).to.have.property(\"email\");",
+									"    pm.expect(u).to.have.property(\"password\");",
+									"    pm.expect(u).to.have.property(\"role\");",
+									"    pm.expect(u).to.have.property(\"avatar\");",
+									"  });",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "b012a9a8-ff9a-4f71-a357-a6f8b318852b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser-ValidDetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 201\", function () {",
+									"    pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"var responseData = pm.response.json();",
+									"",
+									"pm.collectionVariables.set(\"id\",  responseData.id);",
+									"pm.collectionVariables.set(\"name\", responseData.name);",
+									"pm.collectionVariables.set(\"email\", responseData.email);",
+									"pm.collectionVariables.set(\"avatar\", responseData.avatar);",
+									"pm.collectionVariables.set(\"password\", responseData.password);",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "04553116-4b2e-44ea-b12a-3acc14b7a294",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Nicqolas\",\r\n  \"email\": \"aqsa@live.com\",\r\n  \"password\": \"1234\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "UserByID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e01ad6bc-d6f4-4f48-983f-cf579219bfde",
+								"exec": [
+									"pm.test(\"Created user data is correct\", function () {",
+									"    var responseData = pm.response.json();",
+									"    // Compare GET response with saved values",
+									"   ",
+									"    pm.expect(responseData.name).to.eql(pm.collectionVariables.get(\"name\"));",
+									"    pm.expect(responseData.email).to.eql(pm.collectionVariables.get(\"email\"));",
+									"    pm.expect(responseData.avatar).to.eql(pm.collectionVariables.get(\"avatar\"));",
+									"});",
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.eql(200);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4d1e47be-b654-448c-8ea3-0b4dfef924eb",
+								"exec": [
+									"\r",
+									"\r",
+									"pm.collectionVariables.get(\"id\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "439ae39e-e23f-4175-b9f7-2886445e603d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PlatzBaseUrl}}users/:id",
+							"host": [
+								"{{PlatzBaseUrl}}users"
+							],
+							"path": [
+								":id"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "f2e719b6-a128-455b-8598-1fd6afffa292",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "2130ca6c-13a3-4381-a6dd-a78438d70d9a",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"pm.test(\"User updated successfully\", function ()",
+									" { var ResponseData= pm.response.json();    ",
+									" var reqName = JSON.parse(pm.request.body.raw);",
+									"var UpdatedName = reqName.name;",
+									"var UpdatedEmail = reqName.email;",
+									"  pm.expect(ResponseData.name).to.eql(UpdatedName);",
+									"    pm.expect(ResponseData.email).to.eql(UpdatedEmail);",
+									"    ",
+									"  // Save updated value ",
+									"  pm.collectionVariables.set(\"name\", UpdatedName);",
+									"  pm.collectionVariables.set(\"email\", UpdatedEmail);",
+									"   });",
+									"pm.test(\"Updated user data is correct\", function () {",
+									"    var responseData = pm.response.json();",
+									"    pm.expect(responseData.name).to.eql(pm.collectionVariables.get(\"name\"));",
+									"       pm.expect(responseData.email).to.eql(pm.collectionVariables.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "9123dad2-ae8e-42d8-b3ce-83677c94e3c2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"name\": \"{{$randomFullName}}\"\r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PlatzBaseUrl}}users/:id",
+							"host": [
+								"{{PlatzBaseUrl}}users"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{id}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EmailAvailability",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "50449f60-d242-4a96-8c3e-62e752ede99c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 201\", function () {",
+									"    pm.expect(pm.response.code).to.eql(201);",
+									"});",
+									"",
+									"pm.test(\"Email is available\", function(){",
+									"",
+									"    pm.expect(JSON.parse(pm.response.text()).isAvailable).to.eql(false);",
+									"})",
+									"//pm.environment.set(\"emailcheck\", JSON.parse(pm.request.body.raw).email);",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b34d3f0d-a7e8-4f7d-9832-2cc18c29dc7c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "40fadd14-228d-4333-981b-d98378600233",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"{{email}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users/is-available"
+					},
+					"response": []
+				}
+			],
+			"id": "118c18e9-a7d1-4cd0-b44c-0135cf46af01"
+		},
+		{
+			"name": "Invalid-CreateUserDetails",
+			"item": [
+				{
+					"name": "NameFieldEmpty-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Response Name field should not be empty\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"name should not be empty\");",
+									"})",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "3262d76a-b90a-407b-86f6-a7bc20401bee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"aqsa@live.com\",\r\n  \"password\": \"1234\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "EmailEmpty-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Response Email field should not be empty\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"email should not be empty\",",
+									"        \"email must be an email\");",
+									"})",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "36421533-b11e-4d52-b793-2700eec4e9bb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Aqsa\",\r\n  \"email\": \"\",\r\n  \"password\": \"1234\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "EmailInvalid-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Email should be in valid format\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"email must be an email\",",
+									"        \"name should not be empty\");",
+									"})",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "580e79e7-1c29-45b6-a2af-3b8605f7d390",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"sacss\",\r\n  \"email\": \"aqs.live.@jdie.com\",\r\n  \"password\": \"1234\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "EmptyPassword-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Response Password field should not be empty\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"password should not be empty\");",
+									"})",
+									"",
+									" ",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "4ab78607-1228-4486-9e4f-52fa58d301f1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{$randomFirstName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "SpecialCharPassword-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Password must contain only letters and numbers \", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"password must contain only letters and numbers\");",
+									"})",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "2208d436-8722-4d1e-829e-f0d64d6b0680",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"sahudh\",\r\n  \"email\": \"aqsa@live.com\",\r\n  \"password\": \"$(%^\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "PasswordLessThan4Chars-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"password must be longer than or equal to 4 characters\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"password must be longer than or equal to 4 characters\");",
+									"})",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "beaa6e7c-3076-4055-8012-2985b80e9b74",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"dsds\",\r\n  \"email\": \"aqsa@live.com\",\r\n  \"password\": \"123\",\r\n  \"avatar\": \"sum.photos/800\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				},
+				{
+					"name": "AvatarwrongUrl-CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "273d530f-7389-4f81-bb71-0c97e418660c",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 400\", function () {",
+									"    pm.expect(pm.response.code).to.eql(400);",
+									"});",
+									"",
+									"pm.test(\"Response Name field should not be empty\", function () {",
+									"",
+									"    pm.expect(pm.response.json().message).to.include(\"name should not be empty\");",
+									"});",
+									"",
+									"pm.test(\"Response Avatar field should be a URL\", function () {",
+									"    pm.expect(pm.response.json().message).to.include(\"avatar must be a URL address\");",
+									"})",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "1335362e-7dd0-41bf-a672-888d3fea8476",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "e085c3db-6ec0-4e3b-a98e-3b2715f857de",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"\",\r\n  \"email\": \"aqsa@live.com\",\r\n  \"password\": \"1234\",\r\n  \"avatar\": \"sum.photos0\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}users"
+					},
+					"response": []
+				}
+			],
+			"id": "68b869dc-e796-41f9-81e0-203c28db70a4"
+		},
+		{
+			"name": "AuthJWT",
+			"item": [
+				{
+					"name": "UserLogin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "debeed50-7f55-487a-9424-41f79e4a443a",
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 201\", function () {",
+									"    pm.expect(pm.response.code).to.equal(201);",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0a8980b0-6fa9-49fb-8c34-07471818d4ff",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "e8018820-3f32-4de7-bfee-5bacf6b02725",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john@mail.com\",\r\n  \"password\": \"changeme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "InvalidLoginDtails",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "925b4f9b-7b77-400b-9ad1-c69790ab87ca",
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "d89948a8-b255-4a43-aebd-5c5ab074f03a",
+								"exec": [
+									"pm.test(\"InvalidLoginDetails\", function () {",
+									"    pm.expect(pm.response.code).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "a6bfca22-dd92-445d-87af-e3f353b3ee03",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"johnddsacom\",\r\n  \"password\": \"changeme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "AuthUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5dfcdbcb-b5e5-45c7-9814-165d31a93c68",
+								"exec": [
+									"pm.test(\"Unauthorized when no token\", function () {",
+									"    pm.expect(pm.response.code).to.eql(401);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "93120cb5-f4af-49e3-8b83-5331a58f0fb4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"john@email.com\",\r\n  \"password\": \"changeme\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}auth/profile"
+					},
+					"response": [
+						{
+							"id": "5c27a18e-0944-487e-96f7-9b93ae9fb6ba",
+							"name": "AuthUser",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{PlatzBaseUrl}}auth/profile"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"responseTime": null,
+							"body": ""
+						}
+					]
+				}
+			],
+			"id": "280b1a45-5d96-4885-887b-2dce8e56a84a"
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "ListOfProduct",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c34072d-205f-4ad5-a502-f92fde4a4846",
+								"exec": [
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"pm.test(\"Response is an array\", function () {\r",
+									"  pm.expect(pm.response.json()).to.be.an(\"array\");\r",
+									"});\r",
+									"pm.test(\"Each Product list has required fields\", function () {\r",
+									"  let users = pm.response.json();\r",
+									"  users.forEach(u => {\r",
+									"    pm.expect(u).to.have.property(\"id\");\r",
+									"    pm.expect(u).to.have.property(\"title\");\r",
+									"    pm.expect(u).to.have.property(\"slug\");\r",
+									"    pm.expect(u).to.have.property(\"price\");\r",
+									"    pm.expect(u).to.have.property(\"description\");\r",
+									"    pm.expect(u).to.have.property(\"category\");\r",
+									"  });\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "d6e1cd11-3c10-4712-ba6e-64de8b207806",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}products"
+					},
+					"response": [
+						{
+							"id": "39bc4563-708d-4745-83fc-bd53694836b3",
+							"name": "ListOfProductwithlimit",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PlatzBaseUrl}}products?limit=3&offset=1",
+									"host": [
+										"{{PlatzBaseUrl}}products"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "3"
+										},
+										{
+											"key": "offset",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2559"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net;img-src 'self' data: https://cdn.jsdelivr.net;default-src 'self';base-uri 'self';font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';object-src 'none';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 15 Oct 2025 18:24:37 GMT"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"9ff-/sM0rhFu84EoeOj2XDt1vjOHtxQ\""
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"response_headers\":[\"Via\"],\"max_age\":3600,\"success_fraction\":0.01,\"failure_fraction\":0.1}"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?s=JPDvcxfDrY7vydDz%2FR6l1VyBaw2j4BCG0qd%2Bvxg%2BGQg%3D\\u0026sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add\\u0026ts=1760552677\"}],\"max_age\":3600}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=\"https://nel.heroku.com/reports?s=JPDvcxfDrY7vydDz%2FR6l1VyBaw2j4BCG0qd%2Bvxg%2BGQg%3D&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&ts=1760552677\""
+								},
+								{
+									"key": "Server",
+									"value": "Heroku"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=31536000; includeSubDomains"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 heroku-router"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Dns-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "X-Xss-Protection",
+									"value": "0"
+								}
+							],
+							"cookie": [],
+							"responseTime": null,
+							"body": "[\n    {\n        \"id\": 30,\n        \"title\": \"Elegant Golden-Base Stone Top Dining Table\",\n        \"slug\": \"elegant-golden-base-stone-top-dining-table\",\n        \"price\": 66,\n        \"description\": \"Elevate your dining space with this luxurious table, featuring a sturdy golden metal base with an intricate rod design that provides both stability and chic elegance. The smooth stone top in a sleek round shape offers a robust surface for your dining pleasure. Perfect for both everyday meals and special occasions, this table easily complements any modern or glam decor.\",\n        \"category\": {\n            \"id\": 3,\n            \"name\": \"Furniture\",\n            \"slug\": \"furniture\",\n            \"image\": \"https://imgur.com/Qphac99.jpeg\",\n            \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n            \"updatedAt\": \"2025-10-14T19:51:17.000Z\"\n        },\n        \"images\": [\n            \"https://i.imgur.com/NWIJKUj.jpeg\",\n            \"https://i.imgur.com/Jn1YSLk.jpeg\",\n            \"https://i.imgur.com/VNZRvx5.jpeg\"\n        ],\n        \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n        \"updatedAt\": \"2025-10-14T18:15:57.000Z\"\n    },\n    {\n        \"id\": 36,\n        \"title\": \"Rainbow Glitter High Heels\",\n        \"slug\": \"rainbow-glitter-high-heels\",\n        \"price\": 39,\n        \"description\": \"Step into the spotlight with these eye-catching rainbow glitter high heels. Designed to dazzle, each shoe boasts a kaleidoscope of shimmering colors that catch and reflect light with every step. Perfect for special occasions or a night out, these stunners are sure to turn heads and elevate any ensemble.\",\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Shoes\",\n            \"slug\": \"shoes\",\n            \"image\": \"https://imgur.com/qNOjJje.jpeg\",\n            \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n            \"updatedAt\": \"2025-10-14T19:51:24.000Z\"\n        },\n        \"images\": [\n            \"https://i.imgur.com/62gGzeF.jpeg\",\n            \"https://i.imgur.com/5MoPuFM.jpeg\",\n            \"https://i.imgur.com/sUVj7pK.jpeg\"\n        ],\n        \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n        \"updatedAt\": \"2025-10-14T18:15:57.000Z\"\n    },\n    {\n        \"id\": 40,\n        \"title\": \"Futuristic Silver and Gold High-Top Sneaker\",\n        \"slug\": \"futuristic-silver-and-gold-high-top-sneaker\",\n        \"price\": 68,\n        \"description\": \"Step into the future with this eye-catching high-top sneaker, designed for those who dare to stand out. The sneaker features a sleek silver body with striking gold accents, offering a modern twist on classic footwear. Its high-top design provides support and style, making it the perfect addition to any avant-garde fashion collection. Grab a pair today and elevate your shoe game!\",\n        \"category\": {\n            \"id\": 4,\n            \"name\": \"Shoes\",\n            \"slug\": \"shoes\",\n            \"image\": \"https://imgur.com/qNOjJje.jpeg\",\n            \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n            \"updatedAt\": \"2025-10-14T19:51:24.000Z\"\n        },\n        \"images\": [\n            \"https://i.imgur.com/npLfCGq.jpeg\",\n            \"https://i.imgur.com/vYim3gj.jpeg\",\n            \"https://i.imgur.com/HxuHwBO.jpeg\"\n        ],\n        \"creationAt\": \"2025-10-14T18:15:57.000Z\",\n        \"updatedAt\": \"2025-10-14T18:15:57.000Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "ProductById",
+					"id": "5eadcb55-5e68-4264-b0b1-f3f26e89d4f5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}products/125"
+					},
+					"response": []
+				},
+				{
+					"name": "ProductBySlug",
+					"id": "3a71019f-69c8-4238-9654-fa01d4c42ac7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}products/slug/classic-comfort-fit-joggers"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateProduct",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7028f47b-2fd6-4474-8237-749b113581eb",
+								"exec": [
+									"// let categoryId = pm.iterationData.get(\"categoryId\");\r",
+									"// pm.variables.set(\"categoryId\", categoryId);\r",
+									"// let uniquecat = \"Category_\" + Math.random().toString(36).substring(2, 8).toUpperCase(); \r",
+									"// //console.log(\"1\", uniquecat);\r",
+									"// var PlatzBaseUrl = pm.collectionVariables.get(\"PlatzBaseUrl\");\r",
+									"// pm.sendRequest({\r",
+									"//     url: PlatzBaseUrl + \"categories/\" + categoryId,\r",
+									"//     method: \"GET\"\r",
+									"// }, function (err, res) {\r",
+									"//     if (err) {\r",
+									"//         console.log(err);\r",
+									"//         return;\r",
+									"//     }\r",
+									"//     let data = res.json();\r",
+									"//     if (data.name === \"EntityNotFoundError\") {\r",
+									"//         console.log(`Category ID ${categoryId} not found`);\r",
+									"\r",
+									"//         pm.sendRequest({\r",
+									"//             url: \"https://api.escuelajs.co/api/v1/categories/\",\r",
+									"//             method: \"POST\",\r",
+									"//             header: {\r",
+									"//                 \"Content-Type\": \"application/json\"\r",
+									"//             },\r",
+									"//             body: {\r",
+									"//                 mode: \"raw\",\r",
+									"//                 raw: JSON.stringify({\r",
+									"//                     name: uniquecat,\r",
+									"//                     image: \"https://placeimg.com/640/480/any\"\r",
+									"//                 })\r",
+									"//             }\r",
+									"//         }, function (createErr, createRes) {\r",
+									"//             if (createErr) {\r",
+									"//                 console.log(createErr);\r",
+									"//                 return;\r",
+									"//             }\r",
+									"//             let created = createRes.json();\r",
+									"//             console.log(`New category created with ID: ${created.id}`);\r",
+									"\r",
+									"//             //  Update categoryId for next request\r",
+									"//             pm.variables.set(\"categoryId\", created.id);\r",
+									"//             pm.variables.set(\"categoryName\", created.name);\r",
+									"//         });\r",
+									"\r",
+									"//     } else {\r",
+									"//        // console.log(`Category ${categoryId} already exists.`);\r",
+									"//         pm.variables.set(\"categoryId\", categoryId);\r",
+									"//     }\r",
+									"// });\r",
+									"\r",
+									"let categoryId = pm.collectionVariables.get(\"categoryId\");\r",
+									"console.log(categoryId);\r",
+									"var baseTitle = pm.iterationData.get(\"title\");\r",
+									"console.log(\"1:\", baseTitle);\r",
+									"let isNegative = pm.iterationData.get(\"isNegative\");\r",
+									"console.log(\"2:\", isNegative);\r",
+									"\r",
+									"\r",
+									"\r",
+									"if(isNegative) \r",
+									"{\r",
+									"    console.log(\"5:\", isNegative);\r",
+									"    pm.variables.set(\"title\", baseTitle);\r",
+									"    console.log(\"6\", baseTitle);\r",
+									"\r",
+									"}\r",
+									"else\r",
+									"{\r",
+									"let uniqueTitle = `${baseTitle}_${Math.random().toString(36).substring(2,6).toUpperCase()}`;\r",
+									"console.log(\"3:\", uniqueTitle);\r",
+									"pm.variables.set(\"title\", uniqueTitle);\r",
+									"console.log(\"4:\", uniqueTitle);\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f806e87d-e547-416d-a4e2-fcbbc34a2ff2",
+								"exec": [
+									"let res = pm.response.json();\r",
+									"\r",
+									"if (pm.info.iteration === 0) {\r",
+									"    pm.collectionVariables.set(\"firstProductId\", res.id);\r",
+									"\r",
+									"}\r",
+									"pm.test(\"Status code is expected\", function () {\r",
+									"    var IsResponseCode=  pm.iterationData.get(\"IsResponseCode\");\r",
+									"    pm.expect(IsResponseCode).to.eql(pm.response.code);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than expected\", function () {\r",
+									"    let IsResponseTime = pm.iterationData.get(\"IsResponseTime\"); \r",
+									"    let timeLimit = parseInt(IsResponseTime);\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response is as expected.\", function(){\r",
+									"    var isMessageExpected = pm.iterationData.get(\"isMessageExpected\");\r",
+									"    var validateResponseValues = pm.iterationData.get(\"validateResponseValues\");\r",
+									"    var TestCaseDes = pm.iterationData.get(\"TestCaseDes\");\r",
+									"\r",
+									"    pm.test(\"Test Case Title \" + TestCaseDes, function () {});\r",
+									" if (isMessageExpected) {\r",
+									"        var message = pm.iterationData.get(\"Ismsg\");\r",
+									"        pm.expect(message).to.eql(pm.response.json().message);\r",
+									"\r",
+									"    }\r",
+									"    if (validateResponseValues) {\r",
+									"         var responseValues = pm.iterationData.get(\"IsResponseValues\");\r",
+									"         var getTitle = pm.variables.get(\"title\");\r",
+									"         var responsetitle = pm.response.json().title;\r",
+									"        pm.expect(getTitle).to.eql(responsetitle);\r",
+									"        var getcatid = pm.collectionVariables.get(\"categoryId\");\r",
+									"        var catkey = pm.response.json().category.id;\r",
+									"        pm.expect(getcatid).to.eql(catkey);\r",
+									"        var keys = Object.keys(responseValues);\r",
+									"        keys.forEach(function (item) {\r",
+									"            pm.expect(responseValues[item], item + \" is expected to be '\" + responseValues[item] + \"' but got this '\"+(pm.response.json())[item]+\"'\").to.eql((pm.response.json())[item]);\r",
+									"        }); \r",
+									"    }\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "54f2cb9b-9405-446d-b313-f9c83d2303a7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"{{title}}\",\r\n  \"price\": {{price}},\r\n  \"description\": \"{{description}}\",\r\n  \"categoryId\": {{categoryId}},\r\n  \"images\": [\"{{images}}\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}products"
+					},
+					"response": [
+						{
+							"id": "161b5101-6630-482e-a9bc-3158ab358245",
+							"name": "CreateProduct",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"euwfhweh\",\r\n  \"price\": 10,\r\n  \"description\": \"A description\",\r\n  \"categoryId\": 1,\r\n  \"images\": [\"https://placehold.co/600x400\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{PlatzBaseUrl}}products"
+							},
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"responseTime": null,
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "UpdateProduct",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "d0324127-bde4-45fc-87d7-76032c5dcb02",
+								"exec": [
+									"// var UpdateTitle = pm.iterationData.get(\"title\");\r",
+									"// let UpdatedProdTitle = `${UpdateTitle}_${Math.random().toString(36).substring(2,6).toUpperCase()}`;\r",
+									"// pm.variables.set(\"UpdatedProdTitle\", UpdatedProdTitle);\r",
+									"// console.log(\"4:\", UpdatedProdTitle);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f53aaef8-4dbf-48c8-a13f-49d0e5c78ec5",
+								"exec": [
+									"// var res = pm.response.json();\r",
+									"// // pm.collectionVariables.set(\"firstProductId\", res.id);\r",
+									"// // console.log(\" Category Updated with ID:\", res.id);\r",
+									"// let GetProductTitle = pm.variables.get(\"UpdatedProdTitle\");\r",
+									"// let GetPrice = pm.response.json().price;\r",
+									"// //console.log(GetCategoryName);\r",
+									"\r",
+									"\r",
+									"// pm.test(\"Product Updated Successfully\", function () {\r",
+									"//     pm.expect(res.id).to.not.be.null;\r",
+									"//     pm.expect(res.ti).to.equal(GetCategoryName);\r",
+									"//     pm.expect(res.image).to.equal(getimage);\r",
+									"// });\r",
+									"// pm.test(\"Status code is 200\", function () {\r",
+									"//     pm.response.to.have.status(200);\r",
+									"// });"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "f11725db-0240-40ca-8fbd-a18527227ea2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"fsfdf\",\r\n  \"price\": 4214\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}products/2"
+					},
+					"response": [
+						{
+							"id": "a1346403-55b5-4a82-b495-bc57ae9b00bc",
+							"name": "UpdateProduct",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"eerAS\",\r\n  \"price\": 10\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{PlatzBaseUrl}}products/:ProductId",
+									"host": [
+										"{{PlatzBaseUrl}}products"
+									],
+									"path": [
+										":ProductId"
+									],
+									"variable": [
+										{
+											"key": "ProductId",
+											"value": "{{firstProductId}}"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"responseTime": null,
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "ProductPagination",
+					"id": "9ed3ca49-9b5b-4332-99ab-0586147dc0b7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PlatzBaseUrl}}products?offset=1&limit=3",
+							"host": [
+								"{{PlatzBaseUrl}}products"
+							],
+							"query": [
+								{
+									"key": "offset",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "0add6069-0d95-4980-9df8-b325e7e215ac"
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "CreateCategory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c2aa17e6-73dc-4038-b6ca-c532d72dec41",
+								"exec": [
+									"var res = pm.response.json();\r",
+									"pm.collectionVariables.set(\"categoryId\", res.id);\r",
+									"console.log(\" Category Created with ID:\", res.id);\r",
+									"let GetCategoryName = pm.collectionVariables.get(\"CategoryName\");\r",
+									"let getimage = JSON.parse(pm.request.body.raw).image;\r",
+									"console.log(GetCategoryName);\r",
+									"pm.test(\"Category Created Successfully\", function () {\r",
+									"    pm.expect(res.id).to.not.be.null;\r",
+									"    pm.expect(res.name).to.equal(GetCategoryName);\r",
+									"    pm.expect(res.image).to.equal(getimage);\r",
+									"});\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "2421c97d-f50e-4c04-b2a2-6395ac17a996",
+								"exec": [
+									"var name = pm.iterationData.get(\"name\");\r",
+									"var CategoryName = name + \"_\" + Math.floor(Math.random() * 1000);\r",
+									"pm.collectionVariables.set(\"CategoryName\", CategoryName);\r",
+									"console.log(CategoryName);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "5c726007-44c0-45cc-9a37-4cd6e85234dc",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{CategoryName}}\",\r\n  \"image\": \"{{$randomAbstractImage}}\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{PlatzBaseUrl}}categories/"
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateCategory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ef5e2a81-3828-408f-8c7f-43e8611cb999",
+								"exec": [
+									"var res = pm.response.json();\r",
+									"// pm.collectionVariables.set(\"categoryId\", res.id);\r",
+									"// console.log(\" Category Updated with ID:\", res.id);\r",
+									"let GetCategoryName = pm.variables.get(\"UpdatedCategoryName\");\r",
+									"let getimage = JSON.parse(pm.request.body.raw).image;\r",
+									"console.log(GetCategoryName);\r",
+									"\r",
+									"\r",
+									"pm.test(\"Category Updated Successfully\", function () {\r",
+									"    pm.expect(res.id).to.not.be.null;\r",
+									"    pm.expect(res.name).to.equal(GetCategoryName);\r",
+									"    pm.expect(res.image).to.equal(getimage);\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "4be51a48-f468-4ac6-b07b-64a4dfa4e4de",
+								"exec": [
+									"var name = pm.iterationData.get(\"name\");\r",
+									"var UpdatedCategoryName = name + \"_\" + Math.floor(Math.random() * 1000);\r",
+									"pm.variables.set(\"UpdatedCategoryName\", UpdatedCategoryName);\r",
+									"console.log(UpdatedCategoryName);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"id": "c0c74161-d2eb-437a-b573-d6a87639c64a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"{{UpdatedCategoryName}}\",\r\n  \"image\": \"{{$randomAbstractImage}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PlatzBaseUrl}}categories/:categoryId",
+							"host": [
+								"{{PlatzBaseUrl}}categories"
+							],
+							"path": [
+								":categoryId"
+							],
+							"variable": [
+								{
+									"key": "categoryId",
+									"value": "{{categoryId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CategoryByID",
+					"id": "0ade04d4-30b3-430f-9c68-2db4ba02d008",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}categories/41"
+					},
+					"response": []
+				},
+				{
+					"name": "CategoriesList",
+					"id": "26f08691-25f1-4f30-bbb8-18c01cb6f11f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}categories"
+					},
+					"response": []
+				},
+				{
+					"name": "CategoryBySlug",
+					"id": "16a5e81c-91f0-48fd-b4e5-9ceb61f2ff3e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}categories/slug/furniturerr"
+					},
+					"response": []
+				},
+				{
+					"name": "ProductByCategory",
+					"id": "a55285f1-a3c5-4f62-afe3-94d381d2e446",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{PlatzBaseUrl}}categories/4/products"
+					},
+					"response": []
+				}
+			],
+			"id": "5650c837-529e-4d6b-9dc6-cb09089a4462"
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": {
+			"token": "{{PlatzAccessToken}}"
+		}
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9a157b12-713f-4a75-9a07-546e15c13569",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// Check if the bearer token is available\r",
+					"if (!pm.collectionVariables.get(\"PlatzAccessToken\")) {\r",
+					"    try {\r",
+					"        // Make a request to the login endpoint\r",
+					"        pm.sendRequest({\r",
+					"            url: 'https://api.escuelajs.co/api/v1/auth/login',\r",
+					"            method: 'POST',\r",
+					"            header: {\r",
+					"                'Content-Type': 'application/json'\r",
+					"            },\r",
+					"            body: {\r",
+					"                mode: 'raw',\r",
+					"                raw: JSON.stringify({\r",
+					"                    email: \"john@mail.com\",\r",
+					"                    password: \"changeme\"\r",
+					"                })\r",
+					"            }\r",
+					"        }, function (err, res) \r",
+					"        {\r",
+					"            if (err) {\r",
+					"                console.error(err);\r",
+					"                pm.execution.skipRequest();\r",
+					"                return;\r",
+					"             \r",
+					"            }\r",
+					"\r",
+					"            if (res.code >= 400) {\r",
+					"                console.error(res.json().error || \"Login failed\");\r",
+					"                pm.execution.skipRequest();\r",
+					"            } else {\r",
+					"                var newAccessToken = res.json().access_token; // adjust key if needed\r",
+					"                pm.collectionVariables.set(\"PlatzAccessToken\", newAccessToken);\r",
+					"            }\r",
+					"        });\r",
+					"    } catch (err) {\r",
+					"        console.error(err);\r",
+					"        pm.execution.skipRequest();\r",
+					"    }\r",
+					"}\r",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d01635d5-ec15-42ea-8304-3ce676ed6974",
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// /**\r",
+					"//  * Validate a field in JSON response\r",
+					"//  * @param {Object} responseData - API response JSON\r",
+					"//  * @param {string} fieldName - Field to check\r",
+					"//  * @param {string} fieldType - Expected type (\"string\", \"number\", \"boolean\", \"object\", \"array\")\r",
+					"//  * @param {Array} allowedValues - Optional, list of allowed values\r",
+					"//  */\r",
+					"// function validateField(responseData, fieldName, fieldType, allowedValues = []) {\r",
+					"//     pm.expect(responseData).to.have.property(fieldName); // field exist\r",
+					"//     pm.expect(responseData[fieldName]).to.be.a(fieldType); // type check\r",
+					"\r",
+					"//     if (allowedValues.length > 0) {\r",
+					"//         pm.expect(allowedValues).to.include(responseData[fieldName]); // value check\r",
+					"//     }\r",
+					"// }\r",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "PlatzBaseUrl",
+			"value": "https://api.escuelajs.co/api/v1/"
+		},
+		{
+			"key": "PlatzAccessToken",
+			"value": "    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTc1OTI0Nzk0OCwiZXhwIjoxNzYwOTc1OTQ4fQ.4ttluUbXu5V9sTyJpiA2S6eV98Z_y2UtlZ0CNDVksUk\",\n"
+		},
+		{
+			"key": "name",
+			"value": ""
+		},
+		{
+			"key": "email",
+			"value": ""
+		},
+		{
+			"key": "avatar",
+			"value": ""
+		},
+		{
+			"key": "password",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "UpdatedName",
+			"value": ""
+		},
+		{
+			"key": "UpdatedEmail",
+			"value": ""
+		},
+		{
+			"key": "emailcheck",
+			"value": ""
+		},
+		{
+			"key": "categoryId",
+			"value": ""
+		},
+		{
+			"key": "ProductId",
+			"value": ""
+		},
+		{
+			"key": "firstProductId",
+			"value": ""
+		}
+	]
+}
